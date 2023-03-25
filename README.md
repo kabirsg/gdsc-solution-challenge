@@ -12,7 +12,9 @@ For the hardware component, we used an empty cardboard box as the prototype for 
 
 The Raspberry Pi was chosen because it is a lightweight solution for something that can be attached to the garbage bin and simultaneously run computationally heavy tasks (eg. running a model against a video). Alternatively, certain microcontrollers can be used, but due to weighing the resources we had and ease of development, we ultimately decided to use a Raspberry Pi. The decision to choose TensorFlow Lite model is that it offers a major size advantage for running on embedded systems and micro-computers like Raspberry Pi, it speeds up performance and offers a lightweight solution to real time object detection.
 
-For the software component, 
+For the software component, our group decided to use Flutter for the front end. This is because Flutter is a scalable technology, both in terms of scaling our end product and scaling the amount of collaborators for the project. This technology would increase in benefits the more it is implemented, and so we put major thought into just how to accomplish sustainable growth. We decided that by using a valuable SDK such as Flutter, we could maximize chances of growth through working with large agencies/governments with a vested interest in large-scale sustainability. 
+
+The Flutter Component has three screens, and can be navigated through the NavBar. The first screen displays whether an item deposited in a waste receptacle was correct or invalid (given a set mode such a Paper/Cardboard mode or Metal/Plastic mode). The second screen allows for the user to change modes, and thereby change what is a correct and incorrect discarded item. The third screen shows the user how many times they have successfully placed the correct item in the correct receptacle. 
 
 
 ## Feedback/Testing/Iteration
