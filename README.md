@@ -14,12 +14,13 @@ The Raspberry Pi was chosen because it is a lightweight solution for something t
 
 For the software component, 
 
-##Feedback/Testing/Iteration
+
+## Feedback/Testing/Iteration
 - Originally, we tried to use neural network models from the web that were trained to recognize trash in the wild such as [TACO](https://www.kaggle.com/datasets/bouweceunen/trained-models-taco-trash-annotations-in-context). But upon performing tests with different people holding trash in different locations, we soon realized that those data don't fit well to the environment/trash around us, thus we decided to train our own model using [TeachableMachine](https://teachablemachine.withgoogle.com/).
 
-##Success/Completion
+## Success/Completion
 
-##Next Steps
+## Next Steps
 - Include more modes for the garbage bin, such as organic waste, trash etc.
 - Replace the Raspberry Pi with a smaller, cheaper microcontroller for better cost and portableness.
 - For expansion into a larger audience, we have tailored the use of the supporting app to governments. Therefore, the government would use the app and their resources to help this project expand to a larger audience.
