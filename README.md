@@ -21,6 +21,8 @@ The Flutter Component has three screens, and can be navigated through the NavBar
 - Originally, we tried to use neural network models from the web that were trained to recognize trash in the wild such as [TACO](https://www.kaggle.com/datasets/bouweceunen/trained-models-taco-trash-annotations-in-context). But upon performing tests with different people holding trash in different locations, we soon realized that those data don't fit well to the environment/trash around us, thus we decided to train our own model using [TeachableMachine](https://teachablemachine.withgoogle.com/).
 
 ## Success/Completion
+At this point, we are measuring our success through the amount of times our self-trained AI can correctly recognize foreign recyclables. 
+
 
 ## Next Steps
 - Include more modes for the garbage bin, such as organic waste, trash etc.
