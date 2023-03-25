@@ -1,6 +1,6 @@
 # RecycleRight
 ## Inspiration
-According to CBC, 25% of our home city of Toronto's recycling is contaminated with other types of waste making it harder to effectively recycle.
+According to CBC, 25% of our home city of Toronto's recycling is contaminated with other types of waste. This make it much more difficult and expensive to recycle effectively with a lot of the waste thrown into recycling needing to be thrown out unnecessarily because of the contamination. Reducing the amount of contaminated recycling would decrease the amount of landfill waste being created and would save money. In Toronto alone, each percentage point decrease would save the city between $600 000 and $1 000 000 a year. 
 
 ## Problem statement
 RecycleRight is an IoT application to reduce the number of incorrectly thrown waste by detecting the type of material that is in front of the garbage bin. It denies garbage that does not belong in the container and send analytics data to the system's supporting App. Our solution targets UN sustainable goal 11 - sustainable cities and communities and goal 12 - responsible consumption and production becauase reducing contaminated recycling is essential for create more sustainable cities with responsible consumption practices. The target audience of RecycleRight are city residents as most of the incorrect recycling occur is big cities like Toronto as mentioned above.
