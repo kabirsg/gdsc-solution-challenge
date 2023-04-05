@@ -1,6 +1,6 @@
 # RecycleRight
 ## Inspiration
-According to CBC, 25% of our home city of Toronto's recycling is contaminated with other types of waste making it harder to effectively recycle.
+According to CBC, 25% of our home city of Toronto's recycling is contaminated with other types of waste. This make it much more difficult and expensive to recycle effectively with a lot of the waste thrown into recycling needing to be thrown out unnecessarily because of the contamination. Reducing the amount of contaminated recycling would decrease the amount of landfill waste being created and would save money. In Toronto alone, each percentage point decrease would save the city between $600 000 and $1 000 000 a year. 
 
 ## Problem statement
 RecycleRight is an IoT application to reduce the number of incorrectly thrown waste by detecting the type of material that is in front of the garbage bin. It denies garbage that does not belong in the container and send analytics data to the system's supporting App. Our solution targets UN sustainable goal 11 - sustainable cities and communities and goal 12 - responsible consumption and production becauase reducing contaminated recycling is essential for create more sustainable cities with responsible consumption practices. The target audience of RecycleRight are city residents as most of the incorrect recycling occur is big cities like Toronto as mentioned above.
@@ -12,14 +12,19 @@ For the hardware component, we used an empty cardboard box as the prototype for 
 
 The Raspberry Pi was chosen because it is a lightweight solution for something that can be attached to the garbage bin and simultaneously run computationally heavy tasks (eg. running a model against a video). Alternatively, certain microcontrollers can be used, but due to weighing the resources we had and ease of development, we ultimately decided to use a Raspberry Pi. The decision to choose TensorFlow Lite model is that it offers a major size advantage for running on embedded systems and micro-computers like Raspberry Pi, it speeds up performance and offers a lightweight solution to real time object detection.
 
-For the software component, 
+For the software component, our group decided to use Flutter for the front end. This is because Flutter is a scalable technology, both in terms of scaling our end product and scaling the amount of collaborators for the project. This technology would increase in benefits the more it is implemented, and so we put major thought into just how to accomplish sustainable growth. We decided that by using a valuable SDK such as Flutter, we could maximize chances of growth through working with large agencies/governments with a vested interest in large-scale sustainability. 
 
-##Feedback/Testing/Iteration
+The Flutter Component has three screens, and can be navigated through the NavBar. The first screen displays whether an item deposited in a waste receptacle was correct or invalid (given a set mode such a Paper/Cardboard mode or Metal/Plastic mode). The second screen allows for the user to change modes, and thereby change what is a correct and incorrect discarded item. The third screen shows the user how many times they have successfully placed the correct item in the correct receptacle. 
+
+
+## Feedback/Testing/Iteration
 - Originally, we tried to use neural network models from the web that were trained to recognize trash in the wild such as [TACO](https://www.kaggle.com/datasets/bouweceunen/trained-models-taco-trash-annotations-in-context). But upon performing tests with different people holding trash in different locations, we soon realized that those data don't fit well to the environment/trash around us, thus we decided to train our own model using [TeachableMachine](https://teachablemachine.withgoogle.com/).
 
-##Success/Completion
+## Success/Completion
+At this point, we are measuring our success through the amount of times our self-trained AI can correctly recognize foreign recyclables. 
 
-##Next Steps
+
+## Next Steps
 - Include more modes for the garbage bin, such as organic waste, trash etc.
 - Replace the Raspberry Pi with a smaller, cheaper microcontroller for better cost and portableness.
 - For expansion into a larger audience, we have tailored the use of the supporting app to governments. Therefore, the government would use the app and their resources to help this project expand to a larger audience.
