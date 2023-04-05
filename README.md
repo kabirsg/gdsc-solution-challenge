@@ -1,5 +1,29 @@
 # RecycleRight
 
+## How to run project
+Materials required
+- A computer
+- Raspberry Pi
+- Raspberry Pi Camera Module
+- Servo motor
+- LEDs
+- 3 100 ohms Resistors
+- Breadboard & Jumper wires 
+
+Instruction for running the app
+1. Clone the repo using `git clone repo_name`
+2. Connect to a IOS/Andriod device or emulator
+3. Run `pip install cffi`
+4. Download any other dependencies if exceptions occur
+5. Run the command `flutter run` at the project base directory
+
+Instruction for running the hardware device
+1. Connect the GPIO pins to their respective external devices (LEDs, servo motor), ports are listed in the code
+2. Attach the camera module to the Raspberry Pi
+3. Install TensorFlow Lite, TFLite runtime, and all other necessary dependencies listed in the code.
+4. run `python main.py`
+
+
 ## Project Setup
 RecycleRight is an IoT-based solution designed to reduce waste contamination in recycling by accurately detecting the type of material being disposed of and ensuring that it is placed in the correct recycling bin. The application aims to decrease the amount of landfill waste generated due to contaminated recycling (incorrect disposal of waste materials) and save significant costs for cities. By targeting UN Sustainable Development Goals 11 (Sustainable Cities and Communities) and 12 (Responsible Consumption and Production), RecycleRight aims to create more sustainable cities with responsible waste management practices.
 
