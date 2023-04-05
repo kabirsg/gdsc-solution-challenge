@@ -1,6 +1,7 @@
 from tmlib import *
 #from server import *
 from gpiozero import LED
+from server import Server
 import RPi.GPIO as GPIO
 import cv2
 import numpy as np
@@ -43,16 +44,17 @@ def check_class():
       set_angle(200)
       time.sleep(1)
       print(f"Same class '{current_class}' detected for 3 seconds.")
-      #server.connect()
       class_count = 0
       current_time = time.time()
       if (current_time - last_send_time >= 4):
         print("Sending analytics data to the RecycleRight App")
+        process.send_analytics("Y")
         last_send_time = current_time
         blue.on()
         time.sleep(1)
     elif (class_count == 2 and mode != current_class and mode != "None"):
       red.on()
+      process.send_analytics("N")
       set_angle(100)
       time.sleep(1)
       class_count = 0
@@ -67,6 +69,14 @@ def set_angle(angle):
     time.sleep(1)
     GPIO.output(servo,False)
     p.ChangeDutyCycle(0)
+
+def run_server_reception():
+    while True:		
+        server = Server(1234)
+        server.start_connection()
+        server.receive_mode()
+        server.close_connection()
+        time.sleep(0.5)
 
 if __name__ == "__main__":
   #Retrieving mode from localstore
@@ -94,6 +104,12 @@ if __name__ == "__main__":
   
   timer_thread = threading.Thread(target=check_class)
   timer_thread.start()
+
+  server_thread = threading.Thread(target=run_server_reception)
+  server_thread.start()
+
+  process = Server(1235)
+  process.start_connection()
     
   while True:
     _, img = cap.read()
@@ -109,6 +125,7 @@ if __name__ == "__main__":
       cap.release()
       p.stop()
       GPIO.cleanup()
+      process.close_connection()
       stop_thread = True
       break
     

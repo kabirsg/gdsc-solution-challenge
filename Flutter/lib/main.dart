@@ -8,8 +8,21 @@ import 'package:pie_chart/pie_chart.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ffi';
+
+typedef RunCilentAnalyticsFunc = void Function();
+typedef RunCilentAnalytics = void Function();
 
 void main() {
+  final dylib = Platform.isWindows
+      ? DynamicLibrary.open('ffi_python_c.dll')
+      : DynamicLibrary.open('ffi_python_c.so');
+
+  final RunCilentAnalytics runCilentAnalytics = dylib
+      .lookup<NativeFunction<RunCilentAnalyticsFunc>>('run_cilent_analytics')
+      .asFunction();
+
+  runCilentAnalytics();
   runApp(MyApp());
 }
 
