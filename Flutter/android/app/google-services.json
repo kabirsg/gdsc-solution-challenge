@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "49337145189",
+    "project_id": "recycleright2",
+    "storage_bucket": "recycleright2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49337145189:android:55e5961938da5b2e37b38c",
+        "android_client_info": {
+          "package_name": "com.mycompany.recycleright"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "49337145189-dprgea5hib5n6pc63e7o6q06j3m5a2a4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbuxh6cVlF4qtwapqJRIeE_mxypELumis"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "49337145189-dprgea5hib5n6pc63e7o6q06j3m5a2a4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "49337145189-tef5jju9rq9h87rodj81u4nsarht7sj3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.recycleright"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
