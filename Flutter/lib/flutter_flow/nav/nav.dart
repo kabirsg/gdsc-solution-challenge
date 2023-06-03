@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import '../flutter_flow_theme.dart';
 import '/backend/backend.dart';
+import '/backend/schema/structs/index.dart';
 
 import '../../index.dart';
 import '../../main.dart';
@@ -18,6 +19,11 @@ export 'serialization_util.dart';
 const kTransitionInfoKey = '__transition_info__';
 
 class AppStateNotifier extends ChangeNotifier {
+  AppStateNotifier._();
+
+  static AppStateNotifier? _instance;
+  static AppStateNotifier get instance => _instance ??= AppStateNotifier._();
+
   bool showSplashImage = true;
 
   void stopShowingSplashImage() {
@@ -30,7 +36,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       initialLocation: '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
-      errorBuilder: (context, _) => HomePageWidget(),
+      errorBuilder: (context, state) => HomePageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
@@ -43,11 +49,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => HomePageWidget(),
         ),
         FFRoute(
-          name: 'MapPage',
-          path: '/mapPage',
-          builder: (context, params) => MapPageWidget(),
-        ),
-        FFRoute(
           name: 'Info',
           path: '/info',
           asyncParams: {
@@ -56,9 +57,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => InfoWidget(
             bininfo: params.getParam('bininfo', ParamType.Document),
           ),
+        ),
+        FFRoute(
+          name: 'addSystem',
+          path: '/addSystem',
+          builder: (context, params) => AddSystemWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
-      urlPathStrategy: UrlPathStrategy.path,
     );
 
 extension NavParamExtensions on Map<String, String?> {
@@ -73,10 +78,10 @@ extension NavigationExtensions on BuildContext {
   void safePop() {
     // If there is only one route on the stack, navigate to the initial
     // page instead of popping.
-    if (GoRouter.of(this).routerDelegate.matches.length <= 1) {
-      go('/');
-    } else {
+    if (canPop()) {
       pop();
+    } else {
+      go('/');
     }
   }
 }
@@ -85,8 +90,8 @@ extension _GoRouterStateExtensions on GoRouterState {
   Map<String, dynamic> get extraMap =>
       extra != null ? extra as Map<String, dynamic> : {};
   Map<String, dynamic> get allParams => <String, dynamic>{}
-    ..addAll(params)
-    ..addAll(queryParams)
+    ..addAll(pathParameters)
+    ..addAll(queryParameters)
     ..addAll(extraMap);
   TransitionInfo get transitionInfo => extraMap.containsKey(kTransitionInfoKey)
       ? extraMap[kTransitionInfoKey] as TransitionInfo

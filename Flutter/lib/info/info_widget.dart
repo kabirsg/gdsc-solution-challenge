@@ -48,7 +48,7 @@ class _InfoWidgetState extends State<InfoWidget> {
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primary,
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: true,
           title: Text(
             'Info',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
@@ -88,55 +88,83 @@ class _InfoWidgetState extends State<InfoWidget> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: Row(
+                    child: Column(
                       mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Text(
-                              'Capacity:',
-                              style: FlutterFlowTheme.of(context).bodyMedium,
-                            ),
-                            Text(
-                              'Type:',
-                              style: FlutterFlowTheme.of(context).bodyMedium,
-                            ),
-                            Text(
-                              'Number Deposited:',
-                              style: FlutterFlowTheme.of(context).bodyMedium,
+                              'Bin 1',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Poppins',
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    fontWeight: FontWeight.w800,
+                                  ),
                             ),
                           ],
                         ),
-                        Builder(
-                          builder: (context) {
-                            final binInfo = widget.bininfo!.bin1.toList();
-                            return Column(
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
                               mainAxisSize: MainAxisSize.max,
-                              children:
-                                  List.generate(binInfo.length, (binInfoIndex) {
-                                final binInfoItem = binInfo[binInfoIndex];
-                                return Text(
-                                  binInfoItem,
+                              children: [
+                                Text(
+                                  'Type:',
+                                  style:
+                                      FlutterFlowTheme.of(context).bodyMedium,
+                                ),
+                                Text(
+                                  'Capacity:',
+                                  style:
+                                      FlutterFlowTheme.of(context).bodyMedium,
+                                ),
+                                Text(
+                                  'Number Deposited:',
+                                  style:
+                                      FlutterFlowTheme.of(context).bodyMedium,
+                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Text(
+                                  widget.bininfo!.bin1type,
                                   textAlign: TextAlign.start,
                                   style:
                                       FlutterFlowTheme.of(context).bodyMedium,
-                                );
-                              }),
-                            );
-                          },
+                                ),
+                                Text(
+                                  widget.bininfo!.bin1capacity,
+                                  textAlign: TextAlign.start,
+                                  style:
+                                      FlutterFlowTheme.of(context).bodyMedium,
+                                ),
+                                Text(
+                                  widget.bininfo!.bin1deposited,
+                                  textAlign: TextAlign.start,
+                                  style:
+                                      FlutterFlowTheme.of(context).bodyMedium,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
-              if (widget.bininfo!.bin2.length > 0)
-                Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (widget.bininfo!.bin2type == '\'N/A\'')
                     Card(
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       color: FlutterFlowTheme.of(context).secondaryBackground,
@@ -144,49 +172,70 @@ class _InfoWidgetState extends State<InfoWidget> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),
-                      child: Row(
+                      child: Column(
                         mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Text(
-                                'Capacity:',
-                                style: FlutterFlowTheme.of(context).bodyMedium,
-                              ),
-                              Text(
-                                'Type:',
-                                style: FlutterFlowTheme.of(context).bodyMedium,
-                              ),
-                              Text(
-                                'Number Deposited:',
-                                style: FlutterFlowTheme.of(context).bodyMedium,
-                              ),
-                            ],
+                          Text(
+                            'Bin 2',
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  fontFamily: 'Poppins',
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  fontWeight: FontWeight.w800,
+                                ),
                           ),
-                          Builder(
-                            builder: (context) {
-                              final binInfo = widget.bininfo!.bin1.toList();
-                              return Column(
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Column(
                                 mainAxisSize: MainAxisSize.max,
-                                children: List.generate(binInfo.length,
-                                    (binInfoIndex) {
-                                  final binInfoItem = binInfo[binInfoIndex];
-                                  return Text(
-                                    binInfoItem,
+                                children: [
+                                  Text(
+                                    'Type:',
                                     style:
                                         FlutterFlowTheme.of(context).bodyMedium,
-                                  );
-                                }),
-                              );
-                            },
+                                  ),
+                                  Text(
+                                    'Capacity:',
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyMedium,
+                                  ),
+                                  Text(
+                                    'Number Deposited:',
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyMedium,
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                    widget.bininfo!.bin2type,
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyMedium,
+                                  ),
+                                  Text(
+                                    widget.bininfo!.bin2capacity,
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyMedium,
+                                  ),
+                                  Text(
+                                    widget.bininfo!.bin2deposited,
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyMedium,
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
+                ],
+              ),
               Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -198,48 +247,65 @@ class _InfoWidgetState extends State<InfoWidget> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: Visibility(
-                      visible: widget.bininfo!.bin3.length > 0,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Text(
-                                'Capacity:',
-                                style: FlutterFlowTheme.of(context).bodyMedium,
-                              ),
-                              Text(
-                                'Type:',
-                                style: FlutterFlowTheme.of(context).bodyMedium,
-                              ),
-                              Text(
-                                'Number Deposited:',
-                                style: FlutterFlowTheme.of(context).bodyMedium,
-                              ),
-                            ],
-                          ),
-                          Builder(
-                            builder: (context) {
-                              final binInfo = widget.bininfo!.bin3.toList();
-                              return Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: List.generate(binInfo.length,
-                                    (binInfoIndex) {
-                                  final binInfoItem = binInfo[binInfoIndex];
-                                  return Text(
-                                    binInfoItem,
-                                    style:
-                                        FlutterFlowTheme.of(context).bodyMedium,
-                                  );
-                                }),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          'Bin 3',
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Poppins',
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Text(
+                                  'Type:',
+                                  style:
+                                      FlutterFlowTheme.of(context).bodyMedium,
+                                ),
+                                Text(
+                                  'Capacity:',
+                                  style:
+                                      FlutterFlowTheme.of(context).bodyMedium,
+                                ),
+                                Text(
+                                  'Number Deposited:',
+                                  style:
+                                      FlutterFlowTheme.of(context).bodyMedium,
+                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Text(
+                                  widget.bininfo!.bin3type,
+                                  style:
+                                      FlutterFlowTheme.of(context).bodyMedium,
+                                ),
+                                Text(
+                                  widget.bininfo!.bin3capacity,
+                                  style:
+                                      FlutterFlowTheme.of(context).bodyMedium,
+                                ),
+                                Text(
+                                  widget.bininfo!.bin3deposited,
+                                  style:
+                                      FlutterFlowTheme.of(context).bodyMedium,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ],
