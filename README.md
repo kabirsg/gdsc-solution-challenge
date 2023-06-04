@@ -13,10 +13,12 @@ Materials required
 
 Instruction for running the app
 1. Clone the repo using `git clone repo_name`
-2. Connect to a IOS/Andriod device or emulator
+2. Connect to a iOS/Android device - please do not use an emulator because certain functions require access to a camera which an emulator does not have. 
+   - Please look at this Stack Overflow discussion if you require assistance setting up your device to allow Flutter apps to be run on them: https://stackoverflow.com/questions/54444538/how-do-i-run-test-my-flutter-app-on-a-real-device
 3. Run `pip install cffi`
 4. Download any other dependencies if exceptions occur
-5. Run the command `flutter run` at the project base directory
+5. Run the command `flutter pub get` at the project base directory to ensure you have all the required dependencies from the pubspec.yaml file
+6. Run the command `flutter run` at the project base directory
 
 Instruction for running the hardware device
 1. Connect the GPIO pins to their respective external devices (LEDs, servo motor), ports are listed in the code
