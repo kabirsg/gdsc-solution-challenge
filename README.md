@@ -6,9 +6,10 @@ Materials required
 - Raspberry Pi
 - Raspberry Pi Camera Module
 - Servo motor
-- LEDs
-- 3 100 ohms Resistors
+- Ultrasonic sensor
+- 2 100 ohms Resistors
 - Breadboard & Jumper wires 
+- LCD Touchscreen 
 
 Instruction for running the app
 1. Clone the repo using `git clone repo_name`
