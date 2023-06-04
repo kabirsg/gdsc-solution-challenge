@@ -130,7 +130,8 @@ class _AddSystemWidgetState extends State<AddSystemWidget> {
                             hintStyle: FlutterFlowTheme.of(context).labelMedium,
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).alternate,
+                                color: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
                                 width: 2.0,
                               ),
                               borderRadius: BorderRadius.circular(8.0),
@@ -257,7 +258,8 @@ class _AddSystemWidgetState extends State<AddSystemWidget> {
                           fillColor:
                               FlutterFlowTheme.of(context).secondaryBackground,
                           elevation: 2.0,
-                          borderColor: FlutterFlowTheme.of(context).alternate,
+                          borderColor:
+                              FlutterFlowTheme.of(context).primaryBackground,
                           borderWidth: 2.0,
                           borderRadius: 8.0,
                           margin: EdgeInsetsDirectional.fromSTEB(
@@ -298,7 +300,8 @@ class _AddSystemWidgetState extends State<AddSystemWidget> {
                           fillColor:
                               FlutterFlowTheme.of(context).secondaryBackground,
                           elevation: 2.0,
-                          borderColor: FlutterFlowTheme.of(context).alternate,
+                          borderColor:
+                              FlutterFlowTheme.of(context).primaryBackground,
                           borderWidth: 2.0,
                           borderRadius: 8.0,
                           margin: EdgeInsetsDirectional.fromSTEB(
@@ -339,7 +342,8 @@ class _AddSystemWidgetState extends State<AddSystemWidget> {
                           fillColor:
                               FlutterFlowTheme.of(context).secondaryBackground,
                           elevation: 2.0,
-                          borderColor: FlutterFlowTheme.of(context).alternate,
+                          borderColor:
+                              FlutterFlowTheme.of(context).primaryBackground,
                           borderWidth: 2.0,
                           borderRadius: 8.0,
                           margin: EdgeInsetsDirectional.fromSTEB(

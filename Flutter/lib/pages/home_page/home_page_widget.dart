@@ -3,11 +3,14 @@ import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
+import '/pages/marker_sheet/marker_sheet_widget.dart';
+import '/pages/solo_map/solo_map_widget.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'camera_tab.dart';
+
 import 'home_page_model.dart';
 export 'home_page_model.dart';
 
@@ -51,8 +54,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
             body: Center(
               child: SizedBox(
-                width: 50.0,
-                height: 50.0,
+                width: 50,
+                height: 50,
                 child: CircularProgressIndicator(
                   color: FlutterFlowTheme.of(context).primary,
                 ),
@@ -75,17 +78,20 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             resizeToAvoidBottomInset: false,
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
             appBar: PreferredSize(
-              preferredSize: Size.fromHeight(70.0),
+              preferredSize: Size.fromHeight(70),
               child: AppBar(
                 backgroundColor: FlutterFlowTheme.of(context).primary,
                 automaticallyImplyLeading: false,
-                leading: ClipRRect(
-                  borderRadius: BorderRadius.circular(0.0),
-                  child: Image.asset(
-                    'assets/images/recycle.png',
-                    width: 164.0,
-                    height: 100.0,
-                    fit: BoxFit.contain,
+                leading: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(0),
+                    child: Image.asset(
+                      'assets/images/recycle.png',
+                      width: 164,
+                      height: 100,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
                 title: Text(
@@ -94,14 +100,33 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   style: FlutterFlowTheme.of(context).headlineMedium.override(
                         fontFamily: 'Poppins',
                         color: FlutterFlowTheme.of(context).lineColor,
-                        fontSize: 22.0,
+                        fontSize: 22,
                         fontWeight: FontWeight.w600,
                       ),
                 ),
-                actions: [],
+                actions: [
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
+                    child: FlutterFlowIconButton(
+                      borderColor: FlutterFlowTheme.of(context).primary,
+                      borderRadius: 20,
+                      borderWidth: 1,
+                      buttonSize: 48,
+                      fillColor: FlutterFlowTheme.of(context).primary,
+                      icon: Icon(
+                        Icons.add,
+                        color: FlutterFlowTheme.of(context).lineColor,
+                        size: 24,
+                      ),
+                      onPressed: () async {
+                        context.goNamed('addSystem');
+                      },
+                    ),
+                  ),
+                ],
                 centerTitle: true,
-                toolbarHeight: 70.0,
-                elevation: 10.0,
+                toolbarHeight: 70,
+                elevation: 10,
               ),
             ),
             body: SafeArea(
@@ -113,8 +138,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   if (!snapshot.hasData) {
                     return Center(
                       child: SizedBox(
-                        width: 50.0,
-                        height: 50.0,
+                        width: 50,
+                        height: 50,
                         child: CircularProgressIndicator(
                           color: FlutterFlowTheme.of(context).primary,
                         ),
@@ -143,13 +168,36 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           FlutterFlowMarker(
                                         tabBarSystemsRecord.reference.path,
                                         tabBarSystemsRecord.systemLocation!,
+                                        () async {
+                                          await showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            backgroundColor: Colors.transparent,
+                                            enableDrag: false,
+                                            context: context,
+                                            builder: (context) {
+                                              return GestureDetector(
+                                                onTap: () => FocusScope.of(
+                                                        context)
+                                                    .requestFocus(_unfocusNode),
+                                                child: Padding(
+                                                  padding:
+                                                      MediaQuery.of(context)
+                                                          .viewInsets,
+                                                  child: MarkerSheetWidget(
+                                                    info: tabBarSystemsRecord,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ).then((value) => setState(() {}));
+                                        },
                                       ),
                                     )
                                     .toList(),
-                                markerColor: GoogleMarkerColor.rose,
+                                markerColor: GoogleMarkerColor.azure,
                                 mapType: MapType.normal,
                                 style: GoogleMapStyle.standard,
-                                initialZoom: 14.0,
+                                initialZoom: 14,
                                 allowInteraction: true,
                                 allowZoom: true,
                                 showZoomControls: true,
@@ -159,482 +207,603 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 showTraffic: false,
                                 centerMapOnMarkerTap: true,
                               ),
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
+                              ListView(
+                                padding: EdgeInsets.zero,
+                                scrollDirection: Axis.vertical,
                                 children: [
-                                  StreamBuilder<List<SystemsRecord>>(
-                                    stream: querySystemsRecord(),
-                                    builder: (context, snapshot) {
-                                      // Customize what your widget looks like when it's loading.
-                                      if (!snapshot.hasData) {
-                                        return Center(
-                                          child: SizedBox(
-                                            width: 50.0,
-                                            height: 50.0,
-                                            child: CircularProgressIndicator(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
+                                  Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      StreamBuilder<List<SystemsRecord>>(
+                                        stream: querySystemsRecord(),
+                                        builder: (context, snapshot) {
+                                          // Customize what your widget looks like when it's loading.
+                                          if (!snapshot.hasData) {
+                                            return Center(
+                                              child: SizedBox(
+                                                width: 50,
+                                                height: 50,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
                                                       .primary,
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                      List<SystemsRecord>
-                                          columnSystemsRecordList =
-                                          snapshot.data!;
-                                      return Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: List.generate(
-                                            columnSystemsRecordList.length,
-                                            (columnIndex) {
-                                          final columnSystemsRecord =
-                                              columnSystemsRecordList[
-                                                  columnIndex];
-                                          return Card(
-                                            clipBehavior:
-                                                Clip.antiAliasWithSaveLayer,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
-                                            elevation: 4.0,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                            ),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.rectangle,
-                                              ),
-                                              child: Container(
-                                                width: double.infinity,
-                                                color: Colors.white,
-                                                child: ExpandableNotifier(
-                                                  initialExpanded: false,
-                                                  child: ExpandablePanel(
-                                                    header: Text(
-                                                      columnSystemsRecord
-                                                          .systemName,
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .displaySmall
-                                                          .override(
-                                                            fontFamily:
-                                                                'Poppins',
-                                                            color: Colors.black,
-                                                          ),
-                                                    ),
-                                                    collapsed: Container(),
-                                                    expanded: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: [
-                                                        Card(
-                                                          clipBehavior: Clip
-                                                              .antiAliasWithSaveLayer,
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondaryBackground,
-                                                          elevation: 1.0,
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0),
-                                                          ),
-                                                          child: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            children: [
-                                                              Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                children: [
-                                                                  Text(
-                                                                    'Bin 1',
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Poppins',
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).primary,
-                                                                          fontWeight:
-                                                                              FontWeight.w800,
-                                                                        ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              Row(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .max,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    children: [
-                                                                      Text(
-                                                                        'Type:',
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium,
-                                                                      ),
-                                                                      Text(
-                                                                        'Capacity:',
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium,
-                                                                      ),
-                                                                      Text(
-                                                                        'Number Deposited:',
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium,
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    children: [
-                                                                      Text(
-                                                                        columnSystemsRecord
-                                                                            .bin1type,
-                                                                        textAlign:
-                                                                            TextAlign.start,
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium,
-                                                                      ),
-                                                                      Text(
-                                                                        columnSystemsRecord
-                                                                            .bin1capacity,
-                                                                        textAlign:
-                                                                            TextAlign.start,
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium,
-                                                                      ),
-                                                                      Text(
-                                                                        columnSystemsRecord
-                                                                            .bin1deposited,
-                                                                        textAlign:
-                                                                            TextAlign.start,
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium,
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        if (columnSystemsRecord
-                                                                    .bin2type !=
-                                                                null &&
-                                                            columnSystemsRecord
-                                                                    .bin2type !=
-                                                                '')
-                                                          Card(
-                                                            clipBehavior: Clip
-                                                                .antiAliasWithSaveLayer,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .secondaryBackground,
-                                                            elevation: 4.0,
-                                                            shape:
-                                                                RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8.0),
-                                                            ),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              children: [
-                                                                Text(
-                                                                  'Bin 2',
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Poppins',
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .primary,
-                                                                        fontWeight:
-                                                                            FontWeight.w800,
-                                                                      ),
-                                                                ),
-                                                                Row(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: [
-                                                                    Column(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .max,
-                                                                      children: [
-                                                                        Text(
-                                                                          'Type:',
-                                                                          style:
-                                                                              FlutterFlowTheme.of(context).bodyMedium,
-                                                                        ),
-                                                                        Text(
-                                                                          'Capacity:',
-                                                                          style:
-                                                                              FlutterFlowTheme.of(context).bodyMedium,
-                                                                        ),
-                                                                        Text(
-                                                                          'Number Deposited:',
-                                                                          style:
-                                                                              FlutterFlowTheme.of(context).bodyMedium,
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    Column(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .max,
-                                                                      children: [
-                                                                        Text(
-                                                                          columnSystemsRecord
-                                                                              .bin2type,
-                                                                          style:
-                                                                              FlutterFlowTheme.of(context).bodyMedium,
-                                                                        ),
-                                                                        Text(
-                                                                          columnSystemsRecord
-                                                                              .bin2capacity,
-                                                                          style:
-                                                                              FlutterFlowTheme.of(context).bodyMedium,
-                                                                        ),
-                                                                        Text(
-                                                                          columnSystemsRecord
-                                                                              .bin2deposited,
-                                                                          style:
-                                                                              FlutterFlowTheme.of(context).bodyMedium,
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        if (columnSystemsRecord
-                                                                    .bin3type !=
-                                                                null &&
-                                                            columnSystemsRecord
-                                                                    .bin3type !=
-                                                                '')
-                                                          Card(
-                                                            clipBehavior: Clip
-                                                                .antiAliasWithSaveLayer,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .secondaryBackground,
-                                                            elevation: 4.0,
-                                                            shape:
-                                                                RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8.0),
-                                                            ),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              children: [
-                                                                Text(
-                                                                  'Bin 3',
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Poppins',
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .primary,
-                                                                        fontWeight:
-                                                                            FontWeight.w800,
-                                                                      ),
-                                                                ),
-                                                                Row(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: [
-                                                                    Column(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .max,
-                                                                      children: [
-                                                                        Text(
-                                                                          'Type:',
-                                                                          style:
-                                                                              FlutterFlowTheme.of(context).bodyMedium,
-                                                                        ),
-                                                                        Text(
-                                                                          'Capacity:',
-                                                                          style:
-                                                                              FlutterFlowTheme.of(context).bodyMedium,
-                                                                        ),
-                                                                        Text(
-                                                                          'Number Deposited:',
-                                                                          style:
-                                                                              FlutterFlowTheme.of(context).bodyMedium,
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    Column(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .max,
-                                                                      children: [
-                                                                        Text(
-                                                                          columnSystemsRecord
-                                                                              .bin3type,
-                                                                          style:
-                                                                              FlutterFlowTheme.of(context).bodyMedium,
-                                                                        ),
-                                                                        Text(
-                                                                          columnSystemsRecord
-                                                                              .bin3capacity,
-                                                                          style:
-                                                                              FlutterFlowTheme.of(context).bodyMedium,
-                                                                        ),
-                                                                        Text(
-                                                                          columnSystemsRecord
-                                                                              .bin3deposited,
-                                                                          style:
-                                                                              FlutterFlowTheme.of(context).bodyMedium,
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        FlutterFlowIconButton(
-                                                          borderColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .primaryBackground,
-                                                          borderRadius: 20.0,
-                                                          borderWidth: 1.0,
-                                                          buttonSize: 40.0,
-                                                          fillColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .accent1,
-                                                          icon: Icon(
-                                                            Icons.delete,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primaryBackground,
-                                                            size: 24.0,
-                                                          ),
-                                                          onPressed: () async {
-                                                            await columnSystemsRecord
-                                                                .reference
-                                                                .delete();
-                                                          },
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    theme: ExpandableThemeData(
-                                                      tapHeaderToExpand: true,
-                                                      tapBodyToExpand: false,
-                                                      tapBodyToCollapse: false,
-                                                      headerAlignment:
-                                                          ExpandablePanelHeaderAlignment
-                                                              .center,
-                                                      hasIcon: true,
-                                                    ),
-                                                  ),
                                                 ),
                                               ),
+                                            );
+                                          }
+                                          List<SystemsRecord>
+                                              columnSystemsRecordList =
+                                              snapshot.data!;
+                                          return SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: List.generate(
+                                                  columnSystemsRecordList
+                                                      .length, (columnIndex) {
+                                                final columnSystemsRecord =
+                                                    columnSystemsRecordList[
+                                                        columnIndex];
+                                                return Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(12, 12, 12, 0),
+                                                  child: Card(
+                                                    clipBehavior: Clip
+                                                        .antiAliasWithSaveLayer,
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryBackground,
+                                                    elevation: 4,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                    ),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        shape:
+                                                            BoxShape.rectangle,
+                                                      ),
+                                                      child: Container(
+                                                        width: double.infinity,
+                                                        color: Colors.white,
+                                                        child:
+                                                            ExpandableNotifier(
+                                                          initialExpanded: true,
+                                                          child:
+                                                              ExpandablePanel(
+                                                            header: Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          8,
+                                                                          8,
+                                                                          8,
+                                                                          8),
+                                                              child: Text(
+                                                                columnSystemsRecord
+                                                                    .systemName,
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .headlineSmall
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Poppins',
+                                                                      color: Color(
+                                                                          0xFF52528C),
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                            collapsed:
+                                                                Container(),
+                                                            expanded: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child:
+                                                                          Card(
+                                                                        clipBehavior:
+                                                                            Clip.antiAliasWithSaveLayer,
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .secondaryBackground,
+                                                                        elevation:
+                                                                            4,
+                                                                        shape:
+                                                                            RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(8),
+                                                                        ),
+                                                                        child:
+                                                                            Container(
+                                                                          width:
+                                                                              100,
+                                                                          height:
+                                                                              100,
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            color:
+                                                                                FlutterFlowTheme.of(context).secondaryBackground,
+                                                                            shape:
+                                                                                BoxShape.rectangle,
+                                                                          ),
+                                                                          child:
+                                                                              SoloMapWidget(
+                                                                            key:
+                                                                                Key('Key2ro_${columnIndex}_of_${columnSystemsRecordList.length}'),
+                                                                            parameter1:
+                                                                                columnSystemsRecord.systemLocation,
+                                                                            parameter2:
+                                                                                columnSystemsRecord,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Card(
+                                                                  clipBehavior:
+                                                                      Clip.antiAliasWithSaveLayer,
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryBackground,
+                                                                  elevation: 0,
+                                                                  shape:
+                                                                      RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(8),
+                                                                  ),
+                                                                  child: Column(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    children: [
+                                                                      Column(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.max,
+                                                                        children: [
+                                                                          Row(
+                                                                            mainAxisSize:
+                                                                                MainAxisSize.max,
+                                                                            children: [
+                                                                              Padding(
+                                                                                padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                                                                child: Text(
+                                                                                  'Bin 1',
+                                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                        fontFamily: 'Poppins',
+                                                                                        color: FlutterFlowTheme.of(context).primary,
+                                                                                        fontSize: 16,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                      ),
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                                            8,
+                                                                            0,
+                                                                            8,
+                                                                            0),
+                                                                        child:
+                                                                            Row(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceAround,
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
+                                                                              child: Column(
+                                                                                mainAxisSize: MainAxisSize.max,
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    'Type:',
+                                                                                    textAlign: TextAlign.start,
+                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                          fontFamily: 'Poppins',
+                                                                                          fontSize: 12,
+                                                                                        ),
+                                                                                  ),
+                                                                                  Text(
+                                                                                    'Capacity:',
+                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                          fontFamily: 'Poppins',
+                                                                                          fontSize: 12,
+                                                                                        ),
+                                                                                  ),
+                                                                                  Text(
+                                                                                    'Number Deposited:',
+                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                          fontFamily: 'Poppins',
+                                                                                          fontSize: 12,
+                                                                                        ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
+                                                                              child: Column(
+                                                                                mainAxisSize: MainAxisSize.max,
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    columnSystemsRecord.bin1type,
+                                                                                    textAlign: TextAlign.start,
+                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                          fontFamily: 'Poppins',
+                                                                                          fontSize: 12,
+                                                                                        ),
+                                                                                  ),
+                                                                                  Text(
+                                                                                    columnSystemsRecord.bin1capacity +'%',
+                                                                                    textAlign: TextAlign.start,
+                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                          fontFamily: 'Poppins',
+                                                                                          fontSize: 12,
+                                                                                        ),
+                                                                                  ),
+                                                                                  Text(
+                                                                                    columnSystemsRecord.bin1deposited,
+                                                                                    textAlign: TextAlign.start,
+                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                          fontFamily: 'Poppins',
+                                                                                          fontSize: 12,
+                                                                                        ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                if (columnSystemsRecord
+                                                                            .bin2type !=
+                                                                        null &&
+                                                                    columnSystemsRecord
+                                                                            .bin2type !=
+                                                                        'N/A')
+                                                                  Card(
+                                                                    clipBehavior:
+                                                                        Clip.antiAliasWithSaveLayer,
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .secondaryBackground,
+                                                                    elevation:
+                                                                        0,
+                                                                    shape:
+                                                                        RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              8),
+                                                                    ),
+                                                                    child:
+                                                                        Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      children: [
+                                                                        Row(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                                                              child: Text(
+                                                                                'Bin 2',
+                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                      fontFamily: 'Poppins',
+                                                                                      color: FlutterFlowTheme.of(context).primary,
+                                                                                      fontSize: 16,
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                    ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        Padding(
+                                                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                                                              8,
+                                                                              0,
+                                                                              8,
+                                                                              0),
+                                                                          child:
+                                                                              Row(
+                                                                            mainAxisSize:
+                                                                                MainAxisSize.max,
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.spaceAround,
+                                                                            children: [
+                                                                              Padding(
+                                                                                padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
+                                                                                child: Column(
+                                                                                  mainAxisSize: MainAxisSize.max,
+                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      'Type:',
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            fontFamily: 'Poppins',
+                                                                                            fontSize: 12,
+                                                                                          ),
+                                                                                    ),
+                                                                                    Text(
+                                                                                      'Capacity:',
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            fontFamily: 'Poppins',
+                                                                                            fontSize: 12,
+                                                                                          ),
+                                                                                    ),
+                                                                                    Text(
+                                                                                      'Number Deposited:',
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            fontFamily: 'Poppins',
+                                                                                            fontSize: 12,
+                                                                                          ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                              Padding(
+                                                                                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
+                                                                                child: Column(
+                                                                                  mainAxisSize: MainAxisSize.max,
+                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      columnSystemsRecord.bin2type,
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            fontFamily: 'Poppins',
+                                                                                            fontSize: 12,
+                                                                                          ),
+                                                                                    ),
+                                                                                    Text(
+                                                                                      columnSystemsRecord.bin2capacity +'%',
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            fontFamily: 'Poppins',
+                                                                                            fontSize: 12,
+                                                                                          ),
+                                                                                    ),
+                                                                                    Text(
+                                                                                      columnSystemsRecord.bin2deposited,
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            fontFamily: 'Poppins',
+                                                                                            fontSize: 12,
+                                                                                          ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                if (columnSystemsRecord
+                                                                            .bin3type !=
+                                                                        null &&
+                                                                    columnSystemsRecord
+                                                                            .bin3type !=
+                                                                        'N/A')
+                                                                  Card(
+                                                                    clipBehavior:
+                                                                        Clip.antiAliasWithSaveLayer,
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .secondaryBackground,
+                                                                    elevation:
+                                                                        0,
+                                                                    shape:
+                                                                        RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              8),
+                                                                    ),
+                                                                    child:
+                                                                        Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      children: [
+                                                                        Row(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                                                                              child: Text(
+                                                                                'Bin 3',
+                                                                                textAlign: TextAlign.start,
+                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                      fontFamily: 'Poppins',
+                                                                                      color: FlutterFlowTheme.of(context).primary,
+                                                                                      fontSize: 16,
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                    ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        Padding(
+                                                                          padding: EdgeInsetsDirectional.fromSTEB(
+                                                                              8,
+                                                                              0,
+                                                                              8,
+                                                                              0),
+                                                                          child:
+                                                                              Row(
+                                                                            mainAxisSize:
+                                                                                MainAxisSize.max,
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.spaceAround,
+                                                                            children: [
+                                                                              Padding(
+                                                                                padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
+                                                                                child: Column(
+                                                                                  mainAxisSize: MainAxisSize.max,
+                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      'Type:',
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            fontFamily: 'Poppins',
+                                                                                            fontSize: 12,
+                                                                                          ),
+                                                                                    ),
+                                                                                    Text(
+                                                                                      'Capacity:',
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            fontFamily: 'Poppins',
+                                                                                            fontSize: 12,
+                                                                                          ),
+                                                                                    ),
+                                                                                    Text(
+                                                                                      'Number Deposited:',
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            fontFamily: 'Poppins',
+                                                                                            fontSize: 12,
+                                                                                          ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                              Padding(
+                                                                                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
+                                                                                child: Column(
+                                                                                  mainAxisSize: MainAxisSize.max,
+                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      columnSystemsRecord.bin3type,
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            fontFamily: 'Poppins',
+                                                                                            fontSize: 12,
+                                                                                          ),
+                                                                                    ),
+                                                                                    Text(
+                                                                                      columnSystemsRecord.bin3capacity +'%',
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            fontFamily: 'Poppins',
+                                                                                            fontSize: 12,
+                                                                                          ),
+                                                                                    ),
+                                                                                    Text(
+                                                                                      columnSystemsRecord.bin3deposited,
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            fontFamily: 'Poppins',
+                                                                                            fontSize: 12,
+                                                                                          ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                Padding(
+                                                                  padding: EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          8,
+                                                                          8,
+                                                                          8,
+                                                                          8),
+                                                                  child: Row(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .end,
+                                                                    children: [
+                                                                      FlutterFlowIconButton(
+                                                                        borderColor:
+                                                                            FlutterFlowTheme.of(context).primaryBackground,
+                                                                        borderRadius:
+                                                                            20,
+                                                                        borderWidth:
+                                                                            1,
+                                                                        buttonSize:
+                                                                            40,
+                                                                        fillColor:
+                                                                            Colors.white,
+                                                                        icon:
+                                                                            Icon(
+                                                                          Icons
+                                                                              .delete,
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).accent1,
+                                                                          size:
+                                                                              24,
+                                                                        ),
+                                                                        onPressed:
+                                                                            () async {
+                                                                          await columnSystemsRecord
+                                                                              .reference
+                                                                              .delete();
+                                                                        },
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            theme:
+                                                                ExpandableThemeData(
+                                                              tapHeaderToExpand:
+                                                                  true,
+                                                              tapBodyToExpand:
+                                                                  false,
+                                                              tapBodyToCollapse:
+                                                                  false,
+                                                              headerAlignment:
+                                                                  ExpandablePanelHeaderAlignment
+                                                                      .center,
+                                                              hasIcon: true,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              }),
                                             ),
                                           );
-                                        }),
-                                      );
-                                    },
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Align(
-                                        alignment:
-                                            AlignmentDirectional(0.5, 0.5),
-                                        child: FFButtonWidget(
-                                          onPressed: () async {
-                                            context.pushNamed('addSystem');
-                                          },
-                                          text: 'Add System',
-                                          options: FFButtonOptions(
-                                            height: 40.0,
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    24.0, 0.0, 24.0, 0.0),
-                                            iconPadding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 0.0, 0.0, 0.0),
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            textStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleSmall
-                                                    .override(
-                                                      fontFamily: 'Poppins',
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                            elevation: 3.0,
-                                            borderSide: BorderSide(
-                                              color: Colors.transparent,
-                                              width: 1.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                        ),
+                                        },
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
-                              Text(
-                                'Tab View 3',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 32.0,
-                                    ),
-                              ),
+                              CameraTab(),
                             ],
                           ),
                         ),
                         Align(
-                          alignment: Alignment(0.0, 0),
+                          alignment: Alignment(0, 0),
                           child: TabBar(
                             labelColor: FlutterFlowTheme.of(context).primary,
                             labelStyle: FlutterFlowTheme.of(context)

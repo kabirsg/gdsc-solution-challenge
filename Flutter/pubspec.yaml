@@ -18,15 +18,26 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  mobile_scanner: ^3.2.0
   auto_size_text: 3.0.0
   cached_network_image: 3.2.1
+  geopoint: ^1.0.0
+  latlong2: ^0.8.0
+  qr_code_scanner: ^1.0.1
+  camera: ^0.10.5
+  image_picker: ^0.8.4+4
+  tflite_flutter: ^0.10.1
+  path: ^1.8.2
+  image: ^3.0.2
+  permission_handler: ^10.2.0 
+  flutter_barcode_scanner: 2.0.0 
   cloud_firestore: 4.2.0
   cloud_firestore_platform_interface: 5.9.1
   cloud_firestore_web: 3.1.1
