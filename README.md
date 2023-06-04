@@ -23,8 +23,8 @@ Instruction for running the app
 Instruction for running the hardware device
 1. Connect the GPIO pins to their respective external devices (LEDs, servo motor), ports are listed in the code
 2. Attach the camera module to the Raspberry Pi
-3. Install TensorFlow Lite, TFLite runtime, and all other necessary dependencies listed in the code.
-4. run `python main.py`
+3. Go into the directory containing requirements.txt and do `pip install -r requirements.txt`
+4. run `python3 gui.py`
 
 
 ## Project Setup
